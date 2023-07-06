@@ -1,0 +1,26 @@
+.Game {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100vh;
+    /* width: 100%; */
+    /* background-color: aqua; */
+    margin: 50px;
+}
+
+.name {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.pass {
+    margin-top: 20px;
+    width: 100%;
+}
+
+
+
+.Create {
+    margin-top: 20px;
+}

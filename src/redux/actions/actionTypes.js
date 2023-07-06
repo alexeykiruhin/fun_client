@@ -1,1 +1,0 @@
-export const SET_INIT_OK = 'SET_INIT_OK';
