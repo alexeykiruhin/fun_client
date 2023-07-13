@@ -1,9 +1,9 @@
-import styles from './Game.module.css';
+import styles from './createGame.module.css';
 // import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { socket } from '../../socket';
-import { Button, Checkbox, Divider, Form, Input, InputNumber } from 'antd';
+import { Button, Checkbox, Form, Input, InputNumber } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { useDispatch } from 'react-redux';
 import { changeVisible } from '../../redux/slices/menu';
@@ -40,7 +40,7 @@ const Game: React.FC = () => {
         socket.on('create', (data: EventData) => {
             console.log('Received event:', data);
             if (data.stage === 'await') {
-                console.log('AWAIT');
+                console.log(data);
             }
             // Здесь вы можете обрабатывать полученные данные или выполнить нужные действия
         });
@@ -67,6 +67,7 @@ const Game: React.FC = () => {
     const onFinish = (values: any) => {
         console.log('Success:', values);
         socket.emit('create', values)
+        // dispatch(changeVisible('game_stage_1'))
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -112,7 +113,7 @@ const Game: React.FC = () => {
                 </Form.Item>
 
                 <Form.Item
-                    label="Игроков"
+                    label="Игроки"
                     name="players"
                 // rules={[{ message: 'Please input players number!' }]}
                 >

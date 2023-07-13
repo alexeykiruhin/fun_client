@@ -16,6 +16,10 @@ body {
   /* filter: brightness(50%); */
 }
 
+label {
+  color: #fff!important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

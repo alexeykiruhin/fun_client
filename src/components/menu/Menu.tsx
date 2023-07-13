@@ -11,12 +11,12 @@ const Menu = () => {
 
   const handleNew = () => {
     console.log('Click!');
-    dispatch(changeVisible('game'))
+    dispatch(changeVisible('createGame'))
   }
 
   const handleConnect = () => {
     console.log('Click!');
-    dispatch(changeVisible('menu'))
+    dispatch(changeVisible('listRooms'))
   }
 
   return (
