@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Channel } from "diagnostics_channel";
 import { socket } from "../socket";
 import ListRooms from "../components/listRooms/ListRooms";
-import { useDispatch } from "react-redux";
-import { setList } from "./slices/listRooms";
-import { ListRoomsState } from "./slices/listRooms";
 
 // ...
 
@@ -58,8 +54,30 @@ export const api = createApi({
                             console.log(draft.rooms);
                         });
                     });
+
+                    await cacheEntryRemoved;
+                    socket.off('connect');
+                } catch {
+                    // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+                    // in which case `cacheDataLoaded` will throw
+                }
+            },
+        }),
+        createRoom: builder.query<ListRooms, void>({
+            query: () => `/`,
+            async onCacheEntryAdded(
+                arg,
+                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+            ) {
+                try {
+                    // wait for the initial query to resolve before proceeding
+                    await cacheDataLoaded
+                    // Socket
+                    socket.connect();
+                    socket.emit('create', arg)
                     socket.on('create', (rooms: ListRooms) => {
-                        console.log('Received event:', rooms);
+                        console.log('create', rooms);
+                        debugger
                         updateCachedData(() => {
                             console.log('data', rooms);
                             return rooms
@@ -115,4 +133,4 @@ export const api = createApi({
     }),
 });
 
-export const { useGetHomeQuery, useGetListRoomsQuery, useGetRoomsQuery } = api;
+export const { useGetHomeQuery, useGetListRoomsQuery, useGetRoomsQuery, useCreateRoomQuery } = api;

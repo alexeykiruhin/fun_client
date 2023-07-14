@@ -1,21 +1,18 @@
 import React from 'react';
 import styles from './ListRooms.module.css';
-import { useGetListRoomsQuery, useGetRoomsQuery } from '../../redux/api';
-import { Button, Divider } from 'antd';
+import { useGetRoomsQuery } from '../../redux/api';
+import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { changeVisible } from '../../redux/slices/menu';
 
 
-const ListRooms = () => {
-  // const data = useGetListRoomsQuery();
-
+const ListRooms: React.FC = () => {
   const { data, isLoading } = useGetRoomsQuery();
   console.log('data in ListRooms', data?.rooms);
 
   const dispatch = useDispatch();
 
   const handleBack = () => {
-    // console.log(data);
     dispatch(changeVisible('menu'))
   }
 

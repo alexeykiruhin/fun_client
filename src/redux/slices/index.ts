@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import menuReducer from './menu';
-import { api } from '../api'
+import { api } from '../api';
+import socketMiddleware from '../cm';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 export const store = configureStore({
@@ -9,7 +11,8 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware().concat(api.middleware).concat(socketMiddleware),
+  // enhancers: [composeWithDevTools()],
 });
 
 // export default configureStore({

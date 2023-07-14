@@ -1,72 +1,27 @@
 import styles from './createGame.module.css';
 // import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
-import { socket } from '../../socket';
+import React, { useState } from 'react';
 import { Button, Checkbox, Form, Input, InputNumber } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { useDispatch } from 'react-redux';
 import { changeVisible } from '../../redux/slices/menu';
 import { useGetHomeQuery } from '../../redux/api';
+import { roomState, createRoom } from '../../redux/slices/createRoom';
+import { createRoomAsync } from '../../redux/slices/createRoom';
+import { useAppDispatch } from '../../hooks'
 
-//   надо перенести сокет на уровень приложения
-
-// Определение типа события
-interface EventData {
-    // Определите свойства данных события
-    stage: String
-}
 
 const Game: React.FC = () => {
     const [publicity, setPublicity] = useState(false);
     const { data, isLoading } = useGetHomeQuery();
-    const handleWebSocketEvents = (socket: Socket) => {
 
-        // Обработка события подключения
-        socket.on('connect', () => {
-            console.log(socket);
-            console.log('Connected to WebSocket');
-            // Здесь вы можете выполнить дополнительные действия при успешном подключении
-            socket.emit('cnt', "duck");
-        });
-
-        // Обработка события отключения
-        socket.on('disconnect', () => {
-            console.log('Disconnected from WebSocket');
-            // Здесь вы можете выполнить дополнительные действия при отключении
-        });
-
-        // Обработка других событий
-        socket.on('create', (data: EventData) => {
-            console.log('Received event:', data);
-            if (data.stage === 'await') {
-                console.log(data);
-            }
-            // Здесь вы можете обрабатывать полученные данные или выполнить нужные действия
-        });
-
-
-
-        socket.on("connect_error", (error) => {
-            console.log('Error:', error);
-        });
-    };
-
-    useEffect(() => {
-        // Подключение к серверу Socket.IO
-        socket.connect();
-        // Вызов функции для обработки событий веб-сокета
-        handleWebSocketEvents(socket);
-        // Закрытие сокета при размонтировании компонента
-        return () => {
-            socket.close();
-        };
-    }, []);
+    const dispatch = useAppDispatch()
 
     // Form functions
-    const onFinish = (values: any) => {
+    const onFinish = (values: roomState) => {
+        // socket.emit('create', values)
+        dispatch(createRoomAsync(values));
         console.log('Success:', values);
-        socket.emit('create', values)
+        // useCreateRoomQuery(values);
         // dispatch(changeVisible('game_stage_1'))
     };
 
@@ -82,8 +37,6 @@ const Game: React.FC = () => {
     const onChangeNumber = (value: number | null) => {
         console.log('changed', value);
     };
-
-    const dispatch = useDispatch();
 
     const handleBack = () => {
         // console.log(data);

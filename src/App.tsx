@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.css';
 import Menu from './components/menu/Menu';
 import Game from './components/createGame/createGame';
@@ -6,7 +6,7 @@ import Game from './components/createGame/createGame';
 // import Game from './components/game/Game';
 
 // import hooks
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/slices';
 import Header from './components/header/Header';
 import ListRooms from './components/listRooms/ListRooms';
@@ -18,7 +18,12 @@ const App = () => {
 
   const visible = useSelector((state: RootState) => state.menu.visible);
 
-  console.log(visible);
+  console.log('visible', visible);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: 'socket/listenForMessages' });
+  }, [dispatch]);
 
   return (
     <div className={styles.App}>

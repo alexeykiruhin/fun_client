@@ -1,11 +1,11 @@
 import React from "react";
 
-const Game_stage_1 = () => {
+const Game_stage_1: React.FC = () => {
     console.log("STAGE 1");
     
     return (
         <div>
-            1 stage
+            <h3>Ожидаем игроков:</h3>
         </div>
     )
 }
