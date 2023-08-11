@@ -1,0 +1,15 @@
+.itemList {
+  /* background-color: #ff00ff; */
+  border-radius: 50%;
+  margin: 20px;
+  padding: 5px;
+  border: 1px solid transparent;
+}
+
+.itemListClick {
+  /* background-color: #ff00ff; */
+  border-radius: 7px;
+  margin: 20px;
+  border: 1px solid #fff;
+  padding: 5px;
+}

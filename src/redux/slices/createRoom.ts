@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { socket } from '../../socket';
-import { changeVisible } from './menu';
-import { log } from 'console';
 
 
 export interface Message {
     status: String,
-    stage: String
+    stage: String,
+    name: String
+}
+
+export interface connectPlayers {
+    users: Array<Text>
 }
 
 
@@ -15,7 +18,8 @@ export interface roomState {
     players: Number,
     password: String,
     pub: Boolean,
-    status: String
+    status: String,
+    connectPlayers: Array<Text>,
 }
 
 
@@ -25,7 +29,8 @@ const initialState = {
     players: 3,
     password: '',
     pub: false,
-    status: ''
+    status: '',
+    connectPlayers: [],
 } as roomState;
 
 
@@ -35,7 +40,8 @@ export const createRoomAsync = createAsyncThunk(
     'rooms/createRoom',
     async (room: roomState) => {
         return new Promise<Message>((resolve, reject) => {
-            socket.connect();
+            // socket.connect();
+            console.log('createroom');
             socket.emit('create', room);
         });
     }
@@ -47,29 +53,34 @@ const createRoomSlice = createSlice({
     initialState,
     // Редьюсеры в слайсах мутируют состояние и ничего не возвращают наружу
     reducers: {
-        createRoom: (state, action: { payload: roomState }) => {
+        createRoom: (state, action) => {
             // changeVisible(action.payload);
-            console.log('createRoom', action.payload);
-
+            console.log('createRoom', action.payload.name);
+            state.name = action.payload.name
+        },
+        updatePlayers: (state, action) => {
+            // changeVisible(action.payload);
+            console.log('updatePlayers', action.payload);
+            state.connectPlayers = action.payload
         },
         // пример с данными
         // incrementByAmount: (state, action) => {
         //   state.value += action.payload;
         // },
     },
-    extraReducers: (builder) => {
-        builder.addCase(createRoomAsync.fulfilled, (state, action) => {
-            debugger
-            state.status = action.payload.status;
-            console.log('extra', action.payload);
-        })
-    }
+    // extraReducers: (builder) => {
+    //     builder.addCase(createRoomAsync.fulfilled, (state, action) => {
+    //         debugger
+    //         state.status = action.payload.status;
+    //         console.log('extra', action.payload);
+    //     })
+    // }
 });
 
 
 // Слайс генерирует действия, которые экспортируются отдельно
 // Действия генерируются автоматически из имен ключей редьюсеров
-export const { createRoom } = createRoomSlice.actions;
+export const { createRoom, updatePlayers } = createRoomSlice.actions;
 
 
 // По умолчанию экспортируется редьюсер, сгенерированный слайсом

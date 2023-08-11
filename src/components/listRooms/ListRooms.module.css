@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+.ListItemClick {
+
+  margin: 20px;
+  border-radius: 5px;
+  border: 1px solid #fff !important;
+}
+
 .BtnWrapper {
   display: flex;
   flex-direction: column;

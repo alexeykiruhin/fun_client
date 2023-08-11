@@ -5,7 +5,7 @@ import { Button, Checkbox, Form, Input, InputNumber } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { changeVisible } from '../../redux/slices/menu';
 import { useGetHomeQuery } from '../../redux/api';
-import { roomState, createRoom } from '../../redux/slices/createRoom';
+import { roomState } from '../../redux/slices/createRoom';
 import { createRoomAsync } from '../../redux/slices/createRoom';
 import { useAppDispatch } from '../../hooks'
 
@@ -20,7 +20,7 @@ const Game: React.FC = () => {
     const onFinish = (values: roomState) => {
         // socket.emit('create', values)
         dispatch(createRoomAsync(values));
-        console.log('Success:', values);
+        // console.log('Success:', values);
         // useCreateRoomQuery(values);
         // dispatch(changeVisible('game_stage_1'))
     };
