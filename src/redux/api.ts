@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { socket } from "../socket";
+// import { socket } from "../socket";
 
 // ...
 
@@ -14,9 +14,9 @@ interface LoginOK {
     'stage': string
 }
 
-interface Home {
-    users: number
-}
+// interface Home {
+//     users: number
+// }
 
 export interface ListRooms {
     rooms: [{
@@ -80,102 +80,103 @@ export const api = createApi({
                 return response
             },
         }),
-        getHome: builder.query<Home, void>({
-            query: () => `/api/game`,
-        }),
-        getListRooms: builder.query<ListRooms, void>({
-            query: () => `/list_rooms`,
-        }),
-        getRooms: builder.query<ListRooms, void>({
-            query: () => `/`,
-            async onCacheEntryAdded(
-                arg,
-                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
-            ) {
-                try {
-                    // wait for the initial query to resolve before proceeding
-                    await cacheDataLoaded
+        // getHome: builder.query<Home, void>({
+        //     query: () => `/api/game`,
+        // }),
+        // getListRooms: builder.query<ListRooms, void>({
+        //     query: () => `/list_rooms`,
+        // }),
+        // getRooms: builder.query<ListRooms, void>({
+        //     query: () => `/`,
+        //     async onCacheEntryAdded(
+        //         arg,
+        //         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        //     ) {
+        //         try {
+        //             // wait for the initial query to resolve before proceeding
+        //             await cacheDataLoaded
 
-                    // Socket
-                    socket.connect();
-                    console.log('connect');
-                    socket.emit('get_list_rooms');
-                    socket.on('get_list_rooms', (rooms: ListRooms) => {
-                        console.log('Get_list_rooms:', rooms.rooms);
-                        // Обновите состояние с помощью updateCachedData
-                        updateCachedData(draft => {
-                            draft.rooms = rooms.rooms;
-                            console.log(draft.rooms);
-                        });
-                    });
+        //             // Socket
+        //             socket.connect();
+        //             console.log('connect');
+        //             socket.emit('get_list_rooms');
+        //             socket.on('get_list_rooms', (rooms: ListRooms) => {
+        //                 console.log('Get_list_rooms:', rooms.rooms);
+        //                 // Обновите состояние с помощью updateCachedData
+        //                 updateCachedData(draft => {
+        //                     draft.rooms = rooms.rooms;
+        //                     console.log(draft.rooms);
+        //                 });
+        //             });
 
-                    await cacheEntryRemoved;
-                    socket.off('connect');
-                } catch {
-                    // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-                    // in which case `cacheDataLoaded` will throw
-                }
-            },
-        }),
-        createRoom: builder.query<ListRooms, void>({
-            query: () => `/`,
-            async onCacheEntryAdded(
-                arg,
-                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
-            ) {
-                try {
-                    // wait for the initial query to resolve before proceeding
-                    await cacheDataLoaded
-                    // Socket
-                    // socket.connect();
-                    socket.emit('create', arg)
-                    socket.on('create', (rooms: ListRooms) => {
-                        console.log('create', rooms);
-                        debugger
-                        updateCachedData(() => {
-                            console.log('data', rooms);
-                            return rooms
-                        });
-                    });
+        //             await cacheEntryRemoved;
+        //             socket.off('connect');
+        //         } catch {
+        //             // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+        //             // in which case `cacheDataLoaded` will throw
+        //         }
+        //     },
+        // }),
+        // createRoom: builder.query<ListRooms, void>({
+        //     query: () => `/`,
+        //     async onCacheEntryAdded(
+        //         arg,
+        //         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        //     ) {
+        //         try {
+        //             // wait for the initial query to resolve before proceeding
+        //             await cacheDataLoaded
+        //             // Socket
+        //             // socket.connect();
+        //             socket.emit('create', arg)
+        //             socket.on('create', (rooms: ListRooms) => {
+        //                 console.log('create', rooms);
+        //                 debugger
+        //                 updateCachedData(() => {
+        //                     console.log('data', rooms);
+        //                     return rooms
+        //                 });
+        //             });
 
-                    await cacheEntryRemoved;
-                    socket.off('connect');
-                } catch {
-                    // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-                    // in which case `cacheDataLoaded` will throw
-                }
-            },
-        }),
-        connectRoom: builder.query<GameData, string>({
-            query: () => `/`,
-            async onCacheEntryAdded(
-                arg,
-                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
-            ) {
-                try {
-                    // wait for the initial query to resolve before proceeding
-                    await cacheDataLoaded
-                    // Socket
-                    // socket.connect();
-                    socket.emit('connect_room', arg)
-                    // socket.on('create', (rooms: ListRooms) => {
-                    //     console.log('create', rooms);
-                    //     debugger
-                    //     updateCachedData(() => {
-                    //         console.log('data', rooms);
-                    //         return rooms
-                    //     });
-                    // });
+        //             await cacheEntryRemoved;
+        //             socket.off('connect');
+        //         } catch {
+        //             // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+        //             // in which case `cacheDataLoaded` will throw
+        //         }
+        //     },
+        // }),
+        // connectRoom: builder.query<GameData, string>({
+        //     query: () => `/`,
+        //     async onCacheEntryAdded(
+        //         arg,
+        //         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        //     ) {
+        //         try {
+        //             // wait for the initial query to resolve before proceeding
+        //             await cacheDataLoaded
+        //             // Socket
+        //             // socket.connect();
+        //             socket.emit('connect_room', arg)
+        //             // socket.on('create', (rooms: ListRooms) => {
+        //             //     console.log('create', rooms);
+        //             //     debugger
+        //             //     updateCachedData(() => {
+        //             //         console.log('data', rooms);
+        //             //         return rooms
+        //             //     });
+        //             // });
 
-                    await cacheEntryRemoved;
-                    // socket.off('connect');
-                } catch {
-                    // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-                    // in which case `cacheDataLoaded` will throw
-                }
-            },
-        }),
+        //             await cacheEntryRemoved;
+        //             // socket.off('connect');
+        //         } catch {
+        //             // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+        //             // in which case `cacheDataLoaded` will throw
+        //         }
+        //     },
+        // }),
     }),
 });
 
-export const { useLoginMutation, useGetHomeQuery, useGetListRoomsQuery, useGetRoomsQuery, useCreateRoomQuery, useConnectRoomQuery } = api;
+// export const { useLoginMutation, useGetHomeQuery, useGetListRoomsQuery, useGetRoomsQuery, useCreateRoomQuery, useConnectRoomQuery } = api;
+export const { useLoginMutation } = api;

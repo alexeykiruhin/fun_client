@@ -3,6 +3,7 @@ import menuReducer from './menu';
 import { api } from '../api';
 import socketMiddleware from '../cm';
 import createRoom from './createRoom';
+import listRooms from './listRooms';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 
 
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     menu: menuReducer,
     createRoom: createRoom,
+    listRooms: listRooms,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

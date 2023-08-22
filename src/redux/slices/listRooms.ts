@@ -1,20 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { socket } from '../../socket';
 
 export interface RoomState {
     name: string;
-    id: number | null;
+    id: string;
 }
 
 export interface ListRoomsState {
-    rooms: RoomState[];
+    rooms: Array<RoomState>;
 }
 
 // Начальное значение
 const initialState = {
-    rooms: [
-        { name: '', id: null}
-    ]
+    rooms: []
 } as ListRoomsState;
+
+//Получить список комнат
+export const listRoomsAsync = createAsyncThunk(
+    'rooms/listRooms',
+    async () => {
+        return new Promise<ListRoomsState>((resolve, reject) => {
+            // socket.connect();
+            console.log('get_list_rooms');
+            socket.emit('get_list_rooms');
+        });
+    }
+);
 
 const listRoomsSlice = createSlice({
     name: 'menu',

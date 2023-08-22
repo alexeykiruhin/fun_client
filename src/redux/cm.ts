@@ -3,6 +3,7 @@ import { socket } from '../socket';
 import { Message, connectPlayers, createRoom } from './slices/createRoom';
 import { changeVisible } from './slices/menu';
 import { updatePlayers } from './slices/createRoom';
+import { setList } from './slices/listRooms';
 
 // Подключение к серверу Socket.io
 
@@ -37,6 +38,12 @@ const socketMiddleware: Middleware = (store) => (next) => (action) => {
         socket.on('await_players', (data: connectPlayers) => {
             console.log('Ответ из мидлвара await:', data.users);
             store.dispatch(updatePlayers(data.users));
+            // store.dispatch(createRoom(data.name))
+        });
+        // получаю созданные комнаты
+        socket.on('get_list_rooms', (data: connectPlayers) => {
+            console.log('Ответ из мидлвара get_list_rooms:', data);
+            store.dispatch(setList(data));
             // store.dispatch(createRoom(data.name))
         });
     }

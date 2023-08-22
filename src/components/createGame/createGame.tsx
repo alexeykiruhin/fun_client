@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button, Checkbox, Form, Input, InputNumber } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { changeVisible } from '../../redux/slices/menu';
-import { useGetHomeQuery } from '../../redux/api';
+// import { useGetHomeQuery } from '../../redux/api';
 import { roomState } from '../../redux/slices/createRoom';
 import { createRoomAsync } from '../../redux/slices/createRoom';
 import { useAppDispatch } from '../../hooks'
@@ -12,7 +12,7 @@ import { useAppDispatch } from '../../hooks'
 
 const Game: React.FC = () => {
     const [publicity, setPublicity] = useState(false);
-    const { data, isLoading } = useGetHomeQuery();
+    // const { data, isLoading } = useGetHomeQuery();
 
     const dispatch = useAppDispatch()
 
@@ -45,8 +45,8 @@ const Game: React.FC = () => {
     // debugger
     return (
         <div className={styles.Game}>
-            {isLoading && <div>Loading...</div>}
-            {data && <div>Users online: {data.users}</div>}
+            {/* {isLoading && <div>Loading...</div>}
+            {data && <div>Users online: {data.users}</div>} */}
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
